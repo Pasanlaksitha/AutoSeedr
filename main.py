@@ -114,7 +114,7 @@ def download_torrent(folder_id, root_dir='download'):
             r.raise_for_status()
             total_size = int(r.headers.get('Content-Length', 0))
             with open(join(path, file), 'wb') as file_stream, tqdm(total=total_size, unit='B', unit_scale=True) as pbar:
-                for chunk in r.iter_content(chunk_size=int(chunk_size * 1024)):
+                for chunk in r.iter_content(chunk_size=int(chunk_size)):
                     file_stream.write(chunk)
                     pbar.update(len(chunk))
 
