@@ -9,20 +9,8 @@ from configparser import ConfigParser
 from seedr_client import SeedrHandler
 from datetime import datetime
 
+
 # import atexit
-
-config = ConfigParser()
-config.read('cred.ini')
-user = config['seedr']['user']
-password = config['seedr']['password']
-torrent_folder = config['seedr']['torrent_folder']
-download_folder = config['seedr']['download_folder']
-chunk_size = config['seedr']['chunk_size']
-
-seedr = SeedrHandler(email=user, password=password)
-
-faulty_torrents = []
-program_start_time = time()
 
 
 def setup():
@@ -171,8 +159,6 @@ def directory_download():
     if not exists(torrent_folder):
         makedirs(torrent_folder)
     file_list = listdir(torrent_folder)
-    if not exists('cred.ini'):
-        setup()
     for i in file_list:
         try:
             folder_name, folder_id = upload_torrent(i)
@@ -183,6 +169,22 @@ def directory_download():
             pass
     logging(faulty_torrents)
 
+
+config = ConfigParser()
+config.read('cred.ini')
+user = config['seedr']['user']
+password = config['seedr']['password']
+torrent_folder = config['seedr']['torrent_folder']
+download_folder = config['seedr']['download_folder']
+chunk_size = config['seedr']['chunk_size']
+
+seedr = SeedrHandler(email=user, password=password)
+
+faulty_torrents = []
+program_start_time = time()
+
+if not exists('cred.ini'):
+    setup()
 
 directory_download()
 # atexit.register(trigger_while_exit)
