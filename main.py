@@ -17,14 +17,14 @@ def setup():
     username = input("Enter your seedr email: ")
     password_ = input("Enter your seedr password: ")
     torrent_directory = input("Enter your Torrent folder: ")
-    download_directory = input("Enter your download folder: ")
+    # download_directory = input("Enter your download folder: ")
     chunkiness = input("Enter your chunk size (1024, 8192) put 1024 to default:  ")
 
     config['seedr'] = {'user': username,
                        'password': password_,
                        'folder': torrent_directory,
-                       'download_folder': download_directory,
                        'chunk_size': chunkiness}
+    # 'download_folder': download_directory
 
     with open('cred.ini', 'w') as configfile:
         config.write(configfile)
@@ -104,7 +104,7 @@ def fast_download(url, path, file):
                 f.write(chunk)
 
 
-def download_torrent(folder_id, root_dir=download_folder):
+def download_torrent(folder_id, root_dir='download'):
     def download_file(url, path, file):
         print(f"\033[92m Downloading {file} to {path} \033[0m")
         if not exists(path):
@@ -170,23 +170,24 @@ def directory_download():
     logging(faulty_torrents)
 
 
-config = ConfigParser()
-config.read('cred.ini')
-user = config['seedr']['user']
-password = config['seedr']['password']
-torrent_folder = config['seedr']['torrent_folder']
-download_folder = config['seedr']['download_folder']
-chunk_size = config['seedr']['chunk_size']
-
-seedr = SeedrHandler(email=user, password=password)
-
-faulty_torrents = []
-program_start_time = time()
-
 if not exists('cred.ini'):
     setup()
+else:
+    config = ConfigParser()
+    config.read('cred.ini')
+    user = config['seedr']['user']
+    password = config['seedr']['password']
+    torrent_folder = config['seedr']['torrent_folder']
+    download_folder = config['seedr']['download_folder']
+    chunk_size = config['seedr']['chunk_size']
 
-directory_download()
+    seedr = SeedrHandler(email=user, password=password)
+
+    faulty_torrents = []
+    program_start_time = time()
+
+    directory_download()
+
 # atexit.register(trigger_while_exit)
 # TODO: add a function to check if the file is already downloaded
 # TODO: add argument parser using argparse (fastdownload, progressbar download,)
