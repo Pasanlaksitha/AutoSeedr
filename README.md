@@ -33,7 +33,7 @@ Seedr helps users avoid ISP throttling by downloading torrents to its servers in
 **Server Locations and Network Speed:** 
 Seedr's servers may be located in data centers with high-speed internet connections. The proximity and quality of these servers can contribute to faster download speeds compared to using a local torrent client.
 
-**Parallel Downloading:** Seedr may employ parallel downloading techniques, enabling the client to download different parts of a file simultaneously. This can optimize download speeds, especially for larger files.
+**Parallel Downloading:** Seedr may employ parallel downloading techniques, enabling the client to simultaneously download different parts of a file. This can optimize download speeds, especially for larger files.
 
 **Seedr's CDN (Content Delivery Network):**
 Seedr may use a CDN to distribute content efficiently. CDNs cache content on multiple servers across different locations, reducing latency and improving download speeds for users accessing the same content from various locations.
@@ -65,7 +65,7 @@ pip install -r requirements.txt
 ``` 
 + Create a Seedr Account: Sign up for a Seedr account at https://www.seedr.cc/.
 
-+ Configure Settings: in first when program execute it will ask for your seedr username, password, Download folder path, from 2nd execute it will automattically download all the torrents located in `torrent` folder
++ enter your seedr credentials to cred.ini file in the repository 
 
 + Run the Script:  
 ```
