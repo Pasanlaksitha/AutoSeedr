@@ -1,0 +1,2 @@
+# Seedr Torrent Downloader
+When you download torrent files, the ISP detects it as a torrent and limits internet speed from your average speed to slower. To overcome this, I developed a script integrated with Seedr to expedite the process and restore the original speed. Essentially, the script uploads torrent files to Seedr, collects the seeds, and downloads them – all in encrypted HTTPS packets. This prevents the ISP from identifying the traffic as torrents, ensuring they cannot reduce the speed.

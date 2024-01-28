@@ -1,0 +1,7 @@
+*.ini
+log.txt
+speed.txt
+time_log.txt
+*.json
+main-v2.py
+/sample
