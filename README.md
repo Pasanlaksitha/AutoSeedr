@@ -83,6 +83,9 @@ Feel free to contribute to the project by reporting issues, suggesting improveme
 I hope this helps! Let me know if you have any other questions.
 
 ## TODO
-[] add a function to check if the file is already downloaded
+- [ ] add a function to check if the file is already downloaded
+- [ ] Multiple torrent download from multiple seedr accounts to use maximum bandwidth from isp and avoid limits of seedr server bandwidth
+- [ ] add argument parser using argparse (fastdownload, progressbar download,)
+- [ ] few bugs while release 'indipendent .ini file
 
 [Send Email: hello@pasanlaksitha.com](mailto:hello@pasanlaksitha.com)

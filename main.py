@@ -17,14 +17,14 @@ def setup():
     username = input("Enter your seedr email: ")
     password_ = input("Enter your seedr password: ")
     torrent_directory = input("Enter your Torrent folder: ")
-    download_directory = input("Enter your download folder: ")
+    # download_directory = input("Enter your download folder: ")
     chunkiness = input("Enter your chunk size (1024, 8192) put 1024 to default:  ")
 
     config['seedr'] = {'user': username,
                        'password': password_,
                        'folder': torrent_directory,
-                       'download_folder': download_directory,
                        'chunk_size': chunkiness}
+    # 'download_folder': download_directory
 
     with open('cred.ini', 'w') as configfile:
         config.write(configfile)
@@ -104,7 +104,7 @@ def fast_download(url, path, file):
                 f.write(chunk)
 
 
-def download_torrent(folder_id, root_dir=download_folder):
+def download_torrent(folder_id, root_dir):
     def download_file(url, path, file):
         print(f"\033[92m Downloading {file} to {path} \033[0m")
         if not exists(path):
@@ -114,7 +114,7 @@ def download_torrent(folder_id, root_dir=download_folder):
             r.raise_for_status()
             total_size = int(r.headers.get('Content-Length', 0))
             with open(join(path, file), 'wb') as file_stream, tqdm(total=total_size, unit='B', unit_scale=True) as pbar:
-                for chunk in r.iter_content(chunk_size=int(chunk_size * 1024)):
+                for chunk in r.iter_content(chunk_size=int(chunk_size)):
                     file_stream.write(chunk)
                     pbar.update(len(chunk))
 
@@ -155,14 +155,14 @@ def trigger_while_exit():
         f.write(f"Program started {datetime_to_timestamp(1)}\tProgram runtime: {end_time - program_start_time}\n")
 
 
-def directory_download():
+def directory_download(download_folder):
     if not exists(torrent_folder):
         makedirs(torrent_folder)
     file_list = listdir(torrent_folder)
     for i in file_list:
         try:
             folder_name, folder_id = upload_torrent(i)
-            download_torrent(folder_id)
+            download_torrent(folder_id, download_folder)
             delete_folder(folder_id)
         except Exception as e:
             faulty_torrents.append(f'{i} - {e}')
@@ -170,6 +170,8 @@ def directory_download():
     logging(faulty_torrents)
 
 
+if not exists('cred.ini'):
+    setup()
 config = ConfigParser()
 config.read('cred.ini')
 user = config['seedr']['user']
@@ -183,10 +185,8 @@ seedr = SeedrHandler(email=user, password=password)
 faulty_torrents = []
 program_start_time = time()
 
-if not exists('cred.ini'):
-    setup()
+directory_download(download_folder)
 
-directory_download()
 # atexit.register(trigger_while_exit)
 # TODO: add a function to check if the file is already downloaded
 # TODO: add argument parser using argparse (fastdownload, progressbar download,)
