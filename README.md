@@ -65,7 +65,7 @@ pip install -r requirements.txt
 ``` 
 + Create a Seedr Account: Sign up for a Seedr account at https://www.seedr.cc/.
 
-+ enter your seedr credentials to cred.ini file in the repository 
++ Enter your seedr credentials to cred.ini file in the repository 
 
 + Run the Script:  
 ```
@@ -84,8 +84,12 @@ I hope this helps! Let me know if you have any other questions.
 
 ## TODO
 - [ ] add a function to check if the file is already downloaded
-- [ ] Multiple torrent downloads from multiple seedr accounts to use maximum bandwidth from isp and avoid limits of seedr server bandwidth
+- [ ] Multiple torrent downloads from multiple seedr accounts to use maximum bandwidth from ISP and avoid limits of seedr server bandwidth
 - [ ] add argument parser using argparse (fastdownload, progressbar download,)
 - [ ] few bugs while release 'independent .ini file
 
 [Send Email: hello@pasanlaksitha.com](mailto:hello@pasanlaksitha.com)
+
+## License
+
+This project is licensed under the [MIT License](./LICENSE).
