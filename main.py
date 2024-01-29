@@ -8,7 +8,7 @@ import requests
 from seedr_client import SeedrHandler
 from tqdm import tqdm
 
-from utils import logging
+from auto_seedr.utils import logging
 
 
 def setup(config_file='config.ini'):

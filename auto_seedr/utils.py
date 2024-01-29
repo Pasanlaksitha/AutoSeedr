@@ -1,3 +1,4 @@
+from configparser import ConfigParser
 from datetime import datetime
 from functools import wraps
 from time import perf_counter
@@ -51,3 +52,25 @@ def timeit(func, time_log_file: str = 'time_log.txt'):
         return result
 
     return timeit_wrapper
+
+
+def setup_config(email: str, password: str, config_file: str = 'config.ini', torrent_directory: str = 'torrents',
+                 download_directory: str = 'downloads', chunk_size: str = '1024') -> None:
+    """
+    Set up the configuration
+
+    :param email: The email address associated with the user account.
+    :param password: The password for the user account.
+    :param config_file: The configuration file path. Default is 'config.ini'.
+    :param torrent_directory: The directory where torrent files will be stored. Default is 'torrents'.
+    :param download_directory:The directory where downloaded files will be stored. Default is 'downloads'
+    :param chunk_size: The chunk size for downloading files. Default is '1024'.
+    :return: None
+    """
+    __config = ConfigParser()
+    __config['SEEDR'] = {'user': email, 'password': password}
+    __config['APP'] = {'folder': torrent_directory, 'chunk_size': chunk_size,
+                       'download_folder': download_directory}
+
+    with open(config_file, 'w') as configfile:
+        __config.write(configfile)
