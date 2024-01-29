@@ -1,15 +1,14 @@
 import json
 from configparser import ConfigParser
-from datetime import datetime
-from functools import wraps
 from os import makedirs, listdir
 from os.path import join, exists
-from pathlib import Path
-from time import sleep, time, perf_counter
+from time import sleep
 
 import requests
 from seedr_client import SeedrHandler
 from tqdm import tqdm
+
+from utils import logging
 
 
 def setup(config_file='config.ini'):
@@ -37,13 +36,6 @@ def setup(config_file='config.ini'):
         __config.write(configfile)
 
     print("Setup complete")
-
-
-def datetime_to_timestamp(include_milliseconds: bool = False):
-    stamp = datetime.now()
-    if include_milliseconds:
-        return stamp  # use in the log.txt for logging eg:2022-12-27 10:09:20.430322
-    return stamp.strftime("%Y-%m-%d %H:%M:%S") # use in the log.txt for logging eg:2022-12-27 10:09:20
 
 
 def get_progression_data(url):
@@ -135,29 +127,6 @@ def download_torrent(folder_id, root_dir='download'):
 
 def delete_folder(parent_folder_id):
     seedr.delete_folder(parent_folder_id)
-
-
-def logging(content: str):
-    with open('log.txt', 'a') as f:
-        f.write(f"{datetime_to_timestamp(include_milliseconds=False)}: {content} \n")
-
-
-# This function for logging the total running time of function
-def timeit(func):
-    @wraps(func)
-    def timeit_wrapper(*args, **kwargs):
-        start_time = perf_counter()
-        result = func(*args, **kwargs)
-        end_time = perf_counter()
-        total_time = end_time - start_time
-
-        with open('time_log.txt', 'a') as f:
-            f.write(
-                f"Program started {datetime_to_timestamp(include_milliseconds=True)}\tProgram runtime: {total_time}\n")
-
-        return result
-
-    return timeit_wrapper
 
 
 def directory_download():
