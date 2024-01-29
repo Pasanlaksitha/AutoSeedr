@@ -1,44 +1,49 @@
+import json
+from configparser import ConfigParser
+from datetime import datetime
+from functools import wraps
 from os import makedirs, listdir
 from os.path import join, exists
 from pathlib import Path
-from time import sleep, time
-from tqdm import tqdm
+from time import sleep, time, perf_counter
+
 import requests
-import json
-from configparser import ConfigParser
 from seedr_client import SeedrHandler
-from datetime import datetime
+from tqdm import tqdm
 
 
-# import atexit
+def setup(config_file='config.ini'):
+    __config = ConfigParser()
+    __username = input("Enter your seedr email: ")
+    __password_ = input("Enter your seedr password: ")
+    _torrent_directory = input("Enter your Torrent folder default(torrents): ")
+    _download_directory = input("Enter your download folder default(downloads): ")
+    _chunkiness = input("Enter your chunk size (1024, 8192) default(1024): ")
 
+    if not _chunkiness:
+        _chunkiness = '1024'
 
-def setup():
-    username = input("Enter your seedr email: ")
-    password_ = input("Enter your seedr password: ")
-    torrent_directory = input("Enter your Torrent folder: ")
-    # download_directory = input("Enter your download folder: ")
-    chunkiness = input("Enter your chunk size (1024, 8192) put 1024 to default:  ")
+    if not _torrent_directory:
+        _torrent_directory = 'torrents'
 
-    config['seedr'] = {'user': username,
-                       'password': password_,
-                       'folder': torrent_directory,
-                       'chunk_size': chunkiness}
-    # 'download_folder': download_directory
+    if not _download_directory:
+        _download_directory = 'downloads'
 
-    with open('cred.ini', 'w') as configfile:
-        config.write(configfile)
+    __config['SEEDR'] = {'user': __username, 'password': __password_}
+
+    __config['APP'] = {'folder': _torrent_directory, 'chunk_size': _chunkiness, 'download_folder': _download_directory}
+
+    with open(config_file, 'w') as configfile:
+        __config.write(configfile)
+
     print("Setup complete")
 
 
-def datetime_to_timestamp(mode):
+def datetime_to_timestamp(include_milliseconds: bool = False):
     stamp = datetime.now()
-    if mode == 1:
+    if include_milliseconds:
         return stamp  # use in the log.txt for logging eg:2022-12-27 10:09:20.430322
-    elif mode == 2:
-        return stamp.strftime("%Y-%m-%d %H:%M:%S")  # use as a file name and folder name eg:2022-12-27 10:09:20
-    else:
-        raise ValueError("mode must be 1 or 2")
+    return stamp.strftime("%Y-%m-%d %H:%M:%S") # use in the log.txt for logging eg:2022-12-27 10:09:20
 
 
 def get_progression_data(url):
@@ -61,9 +66,8 @@ def is_folder_ok(folder_name, folder_id=None):
         for _folder in data['folders']:
             if _folder['folder_name'] == _folder_name:
                 return _folder['folder_id']
-        else:
-            print('Error not found folder id')
-            return None
+        print('Error not found folder id')
+        return None
 
     folder_ok = False
     if not folder_id:
@@ -98,7 +102,6 @@ def fast_download(url, path, file):
         makedirs(path)
     with requests.get(url, stream=True) as r:
         r.raise_for_status()
-        # total_size = int(r.headers.get('Content-Length', 0))
         with open(join(path, file), 'wb') as f:
             for chunk in r.iter_content(chunk_size=1024):
                 f.write(chunk)
@@ -124,35 +127,37 @@ def download_torrent(folder_id, root_dir='download'):
         _data = seedr.get_folder(_folder)
         file_to_download += _data["files"]
         folders_to_look += [fol["folder_id"] for fol in _data["folders"]]
-    start_time = time()
-    print(start_time)
+
     for _file in file_to_download:
         download_file(seedr.get_file(_file.get('folder_file_id'))['download_url'],
                       join(root_dir, _file.get('folder_path')), _file.get('file_name'))
-    end_time = time()
-
-    folder_name = seedr.get_folder(folder_id)["folder_name"]
-    root_directory = Path(join(root_dir, folder_name))
-    with open('speed.txt', 'a') as f:
-        f.write(
-            f"{end_time - start_time}, {folder_name}, {sum(f.stat().st_size for f in root_directory.glob('**/*') if f.is_file())} \n")
 
 
 def delete_folder(parent_folder_id):
     seedr.delete_folder(parent_folder_id)
 
 
-def logging(faulty_torrents_):
+def logging(content: str):
     with open('log.txt', 'a') as f:
-        for i in faulty_torrents_:
-            f.write(f"{datetime_to_timestamp(1)}: {i} \n")
+        f.write(f"{datetime_to_timestamp(include_milliseconds=False)}: {content} \n")
 
 
-# This function for logging the total running time of the program
-def trigger_while_exit():
-    end_time = time()
-    with open('time_log.txt', 'a') as f:
-        f.write(f"Program started {datetime_to_timestamp(1)}\tProgram runtime: {end_time - program_start_time}\n")
+# This function for logging the total running time of function
+def timeit(func):
+    @wraps(func)
+    def timeit_wrapper(*args, **kwargs):
+        start_time = perf_counter()
+        result = func(*args, **kwargs)
+        end_time = perf_counter()
+        total_time = end_time - start_time
+
+        with open('time_log.txt', 'a') as f:
+            f.write(
+                f"Program started {datetime_to_timestamp(include_milliseconds=True)}\tProgram runtime: {total_time}\n")
+
+        return result
+
+    return timeit_wrapper
 
 
 def directory_download():
@@ -161,34 +166,30 @@ def directory_download():
     file_list = listdir(torrent_folder)
     for i in file_list:
         try:
-            folder_name, folder_id = upload_torrent(i)
+            _, folder_id = upload_torrent(i)
             download_torrent(folder_id)
             delete_folder(folder_id)
         except Exception as e:
-            faulty_torrents.append(f'{i} - {e}')
-            pass
-    logging(faulty_torrents)
+            logging(f'{i} - {e}')
 
 
-if not exists('cred.ini'):
-    setup()
-else:
+if __name__ == '__main__':
+    if not exists('cred.ini'):
+        setup()
+
     config = ConfigParser()
     config.read('cred.ini')
-    user = config['seedr']['user']
-    password = config['seedr']['password']
-    torrent_folder = config['seedr']['torrent_folder']
-    download_folder = config['seedr']['download_folder']
-    chunk_size = config['seedr']['chunk_size']
+
+    user = config['SEEDR']['user']
+    password = config['SEEDR']['password']
+    torrent_folder = config['APP']['torrent_folder']
+    download_folder = config['APP']['download_folder']
+    chunk_size = config['APP']['chunk_size']
 
     seedr = SeedrHandler(email=user, password=password)
 
-    faulty_torrents = []
-    program_start_time = time()
-
     directory_download()
 
-# atexit.register(trigger_while_exit)
 # TODO: add a function to check if the file is already downloaded
 # TODO: add argument parser using argparse (fastdownload, progressbar download,)
 # TODO: Multiple torrent download from multiple seedr accounts to use maximum bandwidth
