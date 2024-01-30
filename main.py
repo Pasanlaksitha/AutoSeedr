@@ -133,14 +133,17 @@ def delete_folder(parent_folder_id):
 def directory_download():
     if not exists(torrent_folder):
         makedirs(torrent_folder)
-    file_list = listdir(torrent_folder)
-    for i in file_list:
-        try:
-            _, folder_id = upload_torrent(i)
-            download_torrent(folder_id)
-            delete_folder(folder_id)
-        except Exception as e:
-            logging(f'{i} - {e}')
+    file_list = [f for f in listdir(torrent_folder) if f.endswith(".torrent")]
+    if file_list:
+        for i in file_list:
+            try:
+                _, folder_id = upload_torrent(i)
+                download_torrent(folder_id)
+                delete_folder(folder_id)
+            except Exception as e:
+                logging(f'{i} - {e}')
+    else:
+        print(f"No torrent files found in {torrent_folder}")
 
 
 if __name__ == '__main__':
@@ -162,6 +165,5 @@ if __name__ == '__main__':
 
 # TODO: add a function to check if the file is already downloaded
 # TODO: add argument parser using argparse (fastdownload, progressbar download,)
-# TODO: Multiple torrent download from multiple seedr accounts to use maximum bandwidth
-#  from isp and avoid limits of seedr server bandwidth
+# TODO: Multiple torrent download from multiple seedr accounts to use maximum bandwidth from isp and avoid limits of seedr server bandwidth
 # FIXME: fix the progress bar

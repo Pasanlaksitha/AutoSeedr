@@ -1,4 +1,4 @@
-#  **Seedr-Auto-Downloader - _AutoSeedr_**
+#  **Seedr Torrent Auto Downloader - _AutoSeedr_**
 
 ---
 
@@ -56,10 +56,10 @@ Seedr uses encrypted HTTPS connections for data transfer. While encryption adds 
 
 
 
-### Getting Started:
+### Getting Started `main.py`:
 
 + Install Python: Ensure you have Python 3.x installed on your system.
-+ Install Dependencies: .
++ Install Dependencies
 ```
 pip install -r requirements.txt
 ``` 
@@ -71,6 +71,19 @@ pip install -r requirements.txt
 ```
 python main.py
 ``` 
++ After input your Seedr Account credentials and App Settings run `main.py` file again
+
+### Getting Started `cli.py`:
+ you should run and setup config.ini file before run this script
++ Run the Script for help:  
+```
+python cli.py -h
+``` 
++ Example Command:  
+```
+    
+    python cli.py -u username -p password -d /home/user/Downloads -t /home/user/torrents -c 5
+```
 
 ### Usage:
 
@@ -83,10 +96,12 @@ Feel free to contribute to the project by reporting issues, suggesting improveme
 I hope this helps! Let me know if you have any other questions.
 
 ## TODO
+- [x] Cli.py Command line interface with more features.
 - [ ] add a function to check if the file is already downloaded
 - [ ] Multiple torrent download from multiple seedr accounts to use maximum bandwidth from isp and avoid limits of seedr server bandwidth
-- [ ] add argument parser using argparse (fastdownload, progressbar download,)
-- [ ] few bugs while release 'indipendent .ini file
+- [x] add argument parser using argparse (fastdownload, progressbar download)
+- [x] few bugs while release 'indipendent .ini file
+- [ ] GUI interface and compiled exe file for windows users
 
 [Send Email: hello@pasanlaksitha.com](mailto:hello@pasanlaksitha.com)
 
