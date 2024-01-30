@@ -7,17 +7,19 @@ import requests
 from seedr_client import SeedrHandler
 from tqdm import tqdm
 
-from auto_seedr.exceptions import FolderNotReadyError
+from auto_seedr.exceptions import FolderNotReadyError, FolderNotFoundError
 
 
 class AutoSeedrClient:
     def __init__(self, email, password, error_log_file='errors.log', log_level=logging.ERROR,
-                 torrent_directory: str = 'torrents', download_directory: str = 'downloads', chunk_size: str = '1024'):
+                 torrent_directory: str = 'torrents', download_directory: str = 'downloads', chunk_size: str = '1024',
+                 time_out: int = 100):
         self.error_log_file = error_log_file
 
         self.torrent_folder = torrent_directory
         self.download_folder = download_directory
         self.chunk_size = chunk_size
+        self.time_out = time_out
 
         self.__seedr = SeedrHandler(email=email, password=password)
 
@@ -40,13 +42,12 @@ class AutoSeedrClient:
             if not exists(directory):
                 makedirs(directory)
 
-    def is_folder_ok(self, folder_name, folder_id=None, time_out=100):
+    def is_folder_ok(self, folder_name, folder_id=None):
         """
         Checks if the specified Seedr folder is ready for use.
 
         :param folder_name: Name of the Seedr folder.
         :param folder_id: ID of the Seedr folder.
-        :param time_out: Maximum time (in seconds) to wait for the folder to be ready.
         :return: Folder ID if the folder is ready, otherwise raises an exception.
         """
 
@@ -61,12 +62,11 @@ class AutoSeedrClient:
             folder_id = get_folder_id(folder_name)
 
         count = 0
-        while count <= time_out:
+        while count <= self.time_out:
             try:
                 if self.__seedr.get_folder(folder_id):
                     return folder_id
-            except:
-                # TODO: add specific Exception
+            except LookupError:
                 folder_id = get_folder_id(folder_name)
                 sleep(1)
                 count += 1
@@ -83,17 +83,19 @@ class AutoSeedrClient:
         progression_data = self.__seedr.add_torrent(torrent=join(self.torrent_folder, filename))
         file_name = progression_data.get('file_name')
 
-        while self.__seedr.get_drive()['torrents']:
+        count = 0
+        while count <= self.time_out:
+            if self.__seedr.get_drive()['torrents']:
+                return file_name, self.is_folder_ok(file_name)
+            count += 1
             sleep(1)
-
-        return file_name, self.is_folder_ok(file_name)
+        raise FolderNotFoundError(file_name)
 
     def download_torrent(self, folder_id, fast_download: bool = False):
         """
         Downloads files from the specified Seedr folder.
 
         :param folder_id: ID of the Seedr folder.
-        :param root_dir: Root directory where downloaded files will be stored.
         :param fast_download: If True, uses fast download; otherwise, uses tqdm for progress.
         :return: None
         """
