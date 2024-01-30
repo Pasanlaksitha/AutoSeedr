@@ -59,7 +59,7 @@ Seedr uses encrypted HTTPS connections for data transfer. While encryption adds 
 ### Getting Started:
 
 + Install Python: Ensure you have Python 3.x installed on your system.
-+ Install Dependencies: 
++ Install Dependencies: .
 ```
 pip install -r requirements.txt
 ``` 
@@ -89,3 +89,8 @@ I hope this helps! Let me know if you have any other questions.
 - [ ] few bugs while release 'indipendent .ini file
 
 [Send Email: hello@pasanlaksitha.com](mailto:hello@pasanlaksitha.com)
+
+
+## License
+
+This project is licensed under the [MIT License](./LICENSE).
