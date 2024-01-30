@@ -87,7 +87,7 @@ def upload_torrent(filename):
     return file_name, is_folder_ok(file_name)
 
 
-# remove all the progress bar to make it faster and more efficient
+# Remove all the progress bar to make it faster and more efficient
 def fast_download(url, path, file):
     print(f"\033[92m Downloading {file} to {path} \033[0m")
     if not exists(path):
