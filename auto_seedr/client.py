@@ -11,7 +11,7 @@ from auto_seedr.exceptions import FolderNotReadyError
 
 
 class AutoSeedrClient:
-    def __init__(self, __email, __password, error_log_file='errors.log', log_level=logging.ERROR,
+    def __init__(self, email, password, error_log_file='errors.log', log_level=logging.ERROR,
                  torrent_directory: str = 'torrents', download_directory: str = 'downloads', chunk_size: str = '1024'):
         self.error_log_file = error_log_file
 
@@ -19,7 +19,7 @@ class AutoSeedrClient:
         self.download_folder = download_directory
         self.chunk_size = chunk_size
 
-        self.__seedr = SeedrHandler(email=__email, password=__password)
+        self.__seedr = SeedrHandler(email=email, password=password)
 
         self._create_directories()
 
@@ -88,7 +88,7 @@ class AutoSeedrClient:
 
         return file_name, self.is_folder_ok(file_name)
 
-    def download_torrent(self, folder_id, root_dir='download', fast_download: bool = False):
+    def download_torrent(self, folder_id, fast_download: bool = False):
         """
         Downloads files from the specified Seedr folder.
 
@@ -126,7 +126,7 @@ class AutoSeedrClient:
 
         for _file in file_to_download:
             download_file(self.__seedr.get_file(_file.get('folder_file_id'))['download_url'],
-                          join(root_dir, _file.get('folder_path')), _file.get('file_name'))
+                          join(self.download_folder, _file.get('folder_path')), _file.get('file_name'))
 
     def delete_folder(self, folder_id):
         """

@@ -30,7 +30,8 @@ def setup(config_file='config.ini'):
 
     __config['SEEDR'] = {'user': __username, 'password': __password_}
 
-    __config['APP'] = {'folder': _torrent_directory, 'chunk_size': _chunkiness, 'download_folder': _download_directory}
+    __config['APP'] = {'torrent_folder': _torrent_directory, 'chunk_size': _chunkiness,
+                       'download_folder': _download_directory}
 
     with open(config_file, 'w') as configfile:
         __config.write(configfile)
@@ -143,11 +144,11 @@ def directory_download():
 
 
 if __name__ == '__main__':
-    if not exists('cred.ini'):
+    if not exists('config.ini'):
         setup()
 
     config = ConfigParser()
-    config.read('cred.ini')
+    config.read('config.ini')
 
     user = config['SEEDR']['user']
     password = config['SEEDR']['password']

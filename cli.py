@@ -66,7 +66,7 @@ def main():
         config.read(args.config_file)
         email = config.get('SEEDR', 'user')
         password = config.get('SEEDR', 'password')
-        torrent_directory = config.get('APP', 'folder')
+        torrent_directory = config.get('APP', 'torrent_folder')
         download_directory = config.get('APP', 'download_folder')
         chunk_size = config.get('APP', 'chunk_size')
     else:
@@ -77,8 +77,8 @@ def main():
         chunk_size = args.chunk_size
 
     seedr_client = AutoSeedrClient(
-        __email=email,
-        __password=password,
+        email=email,
+        password=password,
         torrent_directory=torrent_directory,
         download_directory=download_directory,
         chunk_size=chunk_size,

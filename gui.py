@@ -41,7 +41,7 @@ class AutoSeedrGUI:
         torrent_directory = self.torrent_directory_entry.get()
         download_directory = self.download_directory_entry.get()
 
-        seedr_client = AutoSeedrClient(__email=email, __password=password, torrent_directory=torrent_directory,
+        seedr_client = AutoSeedrClient(email=email, password=password, torrent_directory=torrent_directory,
                                        download_directory=download_directory)
 
         try:
@@ -60,7 +60,7 @@ class AutoSeedrGUI:
             try:
                 email = config.get('SEEDR', 'user')
                 password = config.get('SEEDR', 'password')
-                torrent_directory = config.get('APP', 'folder')
+                torrent_directory = config.get('APP', 'torrent_folder')
                 download_directory = config.get('APP', 'download_folder')
 
                 self.email_entry.delete(0, tk.END)

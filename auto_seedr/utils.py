@@ -69,7 +69,7 @@ def setup_config(email: str, password: str, config_file: str = 'config.ini', tor
     """
     __config = ConfigParser()
     __config['SEEDR'] = {'user': email, 'password': password}
-    __config['APP'] = {'folder': torrent_directory, 'chunk_size': chunk_size,
+    __config['APP'] = {'torrent_folder': torrent_directory, 'chunk_size': chunk_size,
                        'download_folder': download_directory}
 
     with open(config_file, 'w') as configfile:
