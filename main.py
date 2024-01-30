@@ -76,7 +76,7 @@ def is_folder_ok(folder_name, folder_id=None):
 
 
 def upload_torrent(filename):
-    progression_data = seedr.add_torrent(torrent=f'torrent/{filename}', folder_id=-1, check_size=True)
+    progression_data = seedr.add_torrent(torrent=join(torrent_folder, filename), folder_id=-1, check_size=True)
 
     # torrent_id = progression_data.get('torrent_id')
     file_name = progression_data.get('file_name')
@@ -100,7 +100,7 @@ def fast_download(url, path, file):
                 f.write(chunk)
 
 
-def download_torrent(folder_id, root_dir='download'):
+def download_torrent(folder_id):
     def download_file(url, path, file):
         print(f"\033[92m Downloading {file} to {path} \033[0m")
         if not exists(path):
@@ -123,7 +123,7 @@ def download_torrent(folder_id, root_dir='download'):
 
     for _file in file_to_download:
         download_file(seedr.get_file(_file.get('folder_file_id'))['download_url'],
-                      join(root_dir, _file.get('folder_path')), _file.get('file_name'))
+                      join(download_folder, _file.get('folder_path')), _file.get('file_name'))
 
 
 def delete_folder(parent_folder_id):
