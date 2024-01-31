@@ -1,4 +1,3 @@
-import logging
 from os import makedirs, listdir
 from os.path import join, exists
 from time import sleep
@@ -11,11 +10,8 @@ from auto_seedr.exceptions import FolderNotReadyError, FolderNotFoundError
 
 
 class AutoSeedrClient:
-    def __init__(self, email, password, error_log_file='errors.log', log_level=logging.ERROR,
-                 torrent_directory: str = 'torrents', download_directory: str = 'downloads', chunk_size: str = '1024',
-                 time_out: int = 100):
-        self.error_log_file = error_log_file
-
+    def __init__(self, email, password, torrent_directory: str = 'torrents', download_directory: str = 'downloads',
+                 chunk_size: str = '1024', time_out: int = 100):
         self.torrent_folder = torrent_directory
         self.download_folder = download_directory
         self.chunk_size = chunk_size
@@ -24,13 +20,6 @@ class AutoSeedrClient:
         self.__seedr = SeedrHandler(email=email, password=password)
 
         self._create_directories()
-
-        self.logger = logging.getLogger(__name__)
-        self.logger.setLevel(log_level)
-        file_handler = logging.FileHandler(error_log_file)
-        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-        file_handler.setFormatter(formatter)
-        self.logger.addHandler(file_handler)
 
     def _create_directories(self) -> None:
         """
@@ -147,9 +136,6 @@ class AutoSeedrClient:
         """
         file_list = listdir(self.torrent_folder)
         for i in file_list:
-            try:
-                _, folder_id = self.upload_torrent(i)
-                self.download_torrent(folder_id)
-                self.delete_folder(folder_id)
-            except Exception as e:
-                self.logger.error(f'Error processing {i}: {e}', exc_info=True)
+            _, folder_id = self.upload_torrent(i)
+            self.download_torrent(folder_id)
+            self.delete_folder(folder_id)
