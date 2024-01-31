@@ -79,10 +79,38 @@ python main.py
 ```
 python cli.py -h
 ``` 
-+ Example Command:  
++ Example Commands:  
 ```
     
-    python cli.py -u username -p password -d /home/user/Downloads -t /home/user/torrents -c 5
+    usage: cli.py [-h] [-C] [-L] [-f CONFIG_FILE] [-e EMAIL] [-p PASSWORD] [-td TORRENT_DIRECTORY]
+              [-dd DOWNLOAD_DIRECTORY] [-cs CHUNK_SIZE] [-ll {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [-lf LOG_FILE]
+
+AutoSeedr CLI
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -C, --create-config   Create a new config file
+  -L, --load-config     Load an existing config file
+
+Configuration Options:
+  -f CONFIG_FILE, --config-file CONFIG_FILE
+                        INI file path for configuration (default: config.ini)
+  -e EMAIL, --email EMAIL
+                        Seedr account email
+  -p PASSWORD, --password PASSWORD
+                        Seedr account password
+  -td TORRENT_DIRECTORY, --torrent-directory TORRENT_DIRECTORY
+                        Directory containing torrent files (default: torrents)
+  -dd DOWNLOAD_DIRECTORY, --download-directory DOWNLOAD_DIRECTORY
+                        Directory to store downloaded files (default: downloads)
+  -cs CHUNK_SIZE, --chunk-size CHUNK_SIZE
+                        Chunk size for downloading files in kilobytes (default: 1024)
+
+Logging Options:
+  -ll {DEBUG,INFO,WARNING,ERROR,CRITICAL}, --log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}
+                        Logging level (default: ERROR)
+  -lf LOG_FILE, --log-file LOG_FILE
+                        Log file path (default: auto_seedr_cli.log)
 ```
 
 ### Usage:
