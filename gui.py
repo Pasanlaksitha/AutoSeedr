@@ -12,28 +12,28 @@ class AutoSeedrGUI:
         self.create_widgets()
 
     def create_widgets(self):
-        tk.Label(self.root, text="Email:").grid(row=0, column=0, padx=10, pady=5, sticky="e")
+        tk.Label(self.root, text="Email:").grid(row=0, column=0, padx=10, pady=5, sticky="w")
         self.email_entry = tk.Entry(self.root)
         self.email_entry.grid(row=0, column=1, padx=10, pady=5)
 
-        tk.Label(self.root, text="Password:").grid(row=1, column=0, padx=10, pady=5, sticky="e")
+        tk.Label(self.root, text="Password:").grid(row=0, column=4, padx=10, pady=5, sticky="w")
         self.password_entry = tk.Entry(self.root, show="*")
-        self.password_entry.grid(row=1, column=1, padx=10, pady=5)
+        self.password_entry.grid(row=0, column=5, padx=10, pady=5)
 
-        tk.Label(self.root, text="Torrent Directory:").grid(row=2, column=0, padx=10, pady=5, sticky="e")
+        tk.Label(self.root, text="Torrent Directory:").grid(row=2, column=0, padx=10, pady=5, sticky="w")
         self.torrent_directory_entry = tk.Entry(self.root)
         self.torrent_directory_entry.grid(row=2, column=1, padx=10, pady=5)
 
-        tk.Label(self.root, text="Download Directory:").grid(row=3, column=0, padx=10, pady=5, sticky="e")
+        tk.Label(self.root, text="Download Directory:").grid(row=2, column=4, padx=10, pady=5, sticky="w")
         self.download_directory_entry = tk.Entry(self.root)
-        self.download_directory_entry.grid(row=3, column=1, padx=10, pady=5)
+        self.download_directory_entry.grid(row=2, column=5, padx=10, pady=5)
 
-        tk.Button(self.root, text="Directory Download", command=self.directory_download).grid(row=4, column=0,
+        tk.Button(self.root, text="Directory Download", command=self.directory_download, width=20, height=1).grid(row=4, column=0,
                                                                                               columnspan=2, pady=10)
-        tk.Button(self.root, text="Load from INI", command=self.load_from_ini).grid(row=5, column=0, columnspan=2,
+        tk.Button(self.root, text="Load from INI", command=self.load_from_ini).grid(row=4, column=1, columnspan=4,
                                                                                     pady=10)
-        tk.Button(self.root, text="Create INI", command=self.create_ini).grid(row=6, column=0, columnspan=2, pady=10)
-        tk.Button(self.root, text="Quit", command=self.root.quit).grid(row=7, column=0, columnspan=2)
+        tk.Button(self.root, text="Create INI", command=self.create_ini, width=10, height=1).grid(row=5, column=1, columnspan=4, pady=10)
+        tk.Button(self.root, text="Quit", command=self.root.quit).grid(row=5, column=0, columnspan=2)
 
     def directory_download(self):
         email = self.email_entry.get()
@@ -97,6 +97,7 @@ class AutoSeedrGUI:
 
 def main():
     root = tk.Tk()
+    root.geometry("600x200")
     AutoSeedrGUI(root)
     root.mainloop()
 
