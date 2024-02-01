@@ -1,6 +1,7 @@
 import tkinter as tk
 from configparser import ConfigParser
 from tkinter import messagebox, filedialog
+from tqdm.tk import trange, tqdm
 
 from auto_seedr import AutoSeedrClient, setup_config
 
@@ -98,6 +99,7 @@ class AutoSeedrGUI:
 def main():
     root = tk.Tk()
     root.geometry("600x200")
+    root.iconphoto(False, tk.PhotoImage(file="icon.png"))
     AutoSeedrGUI(root)
     root.mainloop()
 
