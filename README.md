@@ -124,12 +124,12 @@ Feel free to contribute to the project by reporting issues, suggesting improveme
 I hope this helps! Let me know if you have any other questions.
 
 ## TODO
-- ✅ Cli.py Command line interface with more features.
+ ✅ Cli.py Command line interface with more features.
 - [ ] add a function to check if the file is already downloaded
 - [ ] Multiple torrent download from multiple seedr accounts to use maximum bandwidth from isp and avoid limits of seedr server bandwidth
-- ✅ add argument parser using argparse (fastdownload, progressbar download)
-- ✅ few bugs while release 'indipendent .ini file
-- ✅ GUI interface and compiled exe file for windows users
+ ✅ add argument parser using argparse (fastdownload, progressbar download)
+ ✅ few bugs while release 'indipendent .ini file
+ ✅ GUI interface and compiled exe file for windows users
 - [ ] fix icon in GUI interface
 - [ ] ADD features to gui interface that are in cli.py
 - [ ] multiple seedr account add to GUI interface
