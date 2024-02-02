@@ -1,13 +1,17 @@
- ![Logo](images/logo.png){: .center}
  
+<p align="center">
+  <img src="images/logo.png" width="200" />
+</p>
 
-# **<center>Seedr Torrent Downloader - _AutoSeedr_** </center>
 
+<p align="center">
+    <h1 align="center">Seedr Torrent Downloader - AutoSeedr</h1>
+</p>
 
 ---
 
 ---
-## **<center> Automate Torrent Downloads and Bypass ISP Throttling </center>**
+## ** Automate Torrent Downloads and Bypass ISP Throttling **
 Tired of ISP throttling slowing down your torrent downloads? 
 AutoSeedr is built for that problem. This Python script automates the process of uploading torrents to Seedr, 
 a cloud storage service that lets you download files over HTTPS, bypassing ISP restrictions and maximizing your download speed.
