@@ -135,6 +135,7 @@ Feel free to contribute to the project by reporting issues, suggesting improveme
 I hope this helps! Let me know if you have any other questions.
 
 ## TODO
+
 - [x] Cli.py Command line interface with more features.
 - [ ] add a function to check if the file is already downloaded
 - [ ] Multiple torrent download from multiple seedr accounts to use maximum bandwidth from isp and avoid limits of seedr server bandwidth
