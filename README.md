@@ -1,4 +1,4 @@
-#  **Seedr-Auto-Downloader - _AutoSeedr_**
+#  **Seedr Torrent Auto Downloader - _AutoSeedr_**
 
 ---
 
@@ -33,7 +33,7 @@ Seedr helps users avoid ISP throttling by downloading torrents to its servers in
 **Server Locations and Network Speed:** 
 Seedr's servers may be located in data centers with high-speed internet connections. The proximity and quality of these servers can contribute to faster download speeds compared to using a local torrent client.
 
-**Parallel Downloading:** Seedr may employ parallel downloading techniques, enabling the client to simultaneously download different parts of a file. This can optimize download speeds, especially for larger files.
+**Parallel Downloading:** Seedr may employ parallel downloading techniques, enabling the client to download different parts of a file simultaneously. This can optimize download speeds, especially for larger files.
 
 **Seedr's CDN (Content Delivery Network):**
 Seedr may use a CDN to distribute content efficiently. CDNs cache content on multiple servers across different locations, reducing latency and improving download speeds for users accessing the same content from various locations.
@@ -56,21 +56,62 @@ Seedr uses encrypted HTTPS connections for data transfer. While encryption adds 
 
 
 
-### Getting Started:
+### Getting Started `main.py`:
 
 + Install Python: Ensure you have Python 3.x installed on your system.
-+ Install Dependencies: 
++ Install Dependencies
 ```
 pip install -r requirements.txt
 ``` 
 + Create a Seedr Account: Sign up for a Seedr account at https://www.seedr.cc/.
 
-+ Enter your seedr credentials to cred.ini file in the repository 
++ Configure Settings: in first when program execute it will ask for your seedr username, password, Download folder path, from 2nd execute it will automattically download all the torrents located in `torrent` folder
 
 + Run the Script:  
 ```
 python main.py
 ``` 
++ After input your Seedr Account credentials and App Settings run `main.py` file again
+
+### Getting Started `cli.py`:
+ you should run and setup config.ini file before run this script
++ Run the Script for help:  
+```
+python cli.py -h
+``` 
++ Example Commands:  
+```
+    
+    usage: cli.py [-h] [-C] [-L] [-f CONFIG_FILE] [-e EMAIL] [-p PASSWORD] [-td TORRENT_DIRECTORY]
+              [-dd DOWNLOAD_DIRECTORY] [-cs CHUNK_SIZE] [-ll {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [-lf LOG_FILE]
+
+AutoSeedr CLI
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -C, --create-config   Create a new config file
+  -L, --load-config     Load an existing config file
+
+Configuration Options:
+  -f CONFIG_FILE, --config-file CONFIG_FILE
+                        INI file path for configuration (default: config.ini)
+  -e EMAIL, --email EMAIL
+                        Seedr account email
+  -p PASSWORD, --password PASSWORD
+                        Seedr account password
+  -td TORRENT_DIRECTORY, --torrent-directory TORRENT_DIRECTORY
+                        Directory containing torrent files (default: torrents)
+  -dd DOWNLOAD_DIRECTORY, --download-directory DOWNLOAD_DIRECTORY
+                        Directory to store downloaded files (default: downloads)
+  -cs CHUNK_SIZE, --chunk-size CHUNK_SIZE
+                        Chunk size for downloading files in kilobytes (default: 1024)
+
+Logging Options:
+  -ll {DEBUG,INFO,WARNING,ERROR,CRITICAL}, --log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}
+                        Logging level (default: ERROR)
+  -lf LOG_FILE, --log-file LOG_FILE
+                        Log file path (default: auto_seedr_cli.log)
+```
 
 ### Usage:
 
@@ -83,12 +124,15 @@ Feel free to contribute to the project by reporting issues, suggesting improveme
 I hope this helps! Let me know if you have any other questions.
 
 ## TODO
+- [x] Cli.py Command line interface with more features.
 - [ ] add a function to check if the file is already downloaded
-- [ ] Multiple torrent downloads from multiple seedr accounts to use maximum bandwidth from ISP and avoid limits of seedr server bandwidth
-- [ ] add argument parser using argparse (fastdownload, progressbar download,)
-- [ ] few bugs while release 'independent .ini file
+- [ ] Multiple torrent download from multiple seedr accounts to use maximum bandwidth from isp and avoid limits of seedr server bandwidth
+- [x] add argument parser using argparse (fastdownload, progressbar download)
+- [x] few bugs while release 'indipendent .ini file
+- [ ] GUI interface and compiled exe file for windows users
 
 [Send Email: hello@pasanlaksitha.com](mailto:hello@pasanlaksitha.com)
+
 
 ## License
 
