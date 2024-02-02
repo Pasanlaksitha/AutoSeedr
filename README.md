@@ -129,7 +129,10 @@ I hope this helps! Let me know if you have any other questions.
 - [ ] Multiple torrent download from multiple seedr accounts to use maximum bandwidth from isp and avoid limits of seedr server bandwidth
 - [x] add argument parser using argparse (fastdownload, progressbar download)
 - [x] few bugs while release 'indipendent .ini file
-- [ ] GUI interface and compiled exe file for windows users
+- [x] GUI interface and compiled exe file for windows users
+- [ ] fix icon in GUI interface
+- [ ] ADD features to gui interface that are in cli.py
+- [ ] multiple seedr account add to GUI interface
 
 [Send Email: hello@pasanlaksitha.com](mailto:hello@pasanlaksitha.com)
 
