@@ -1,4 +1,4 @@
- ![Logo](images/splash.png){: .center}
+ ![Logo](images/logo.png){: .center}
  
 
 # **<center>Seedr Torrent Downloader - _AutoSeedr_** </center>
