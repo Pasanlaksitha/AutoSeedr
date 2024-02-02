@@ -1,14 +1,20 @@
-#  **Seedr Torrent Auto Downloader - _AutoSeedr_**
+ ![Logo](images/splash.png){: .center}
+ 
+
+# **<center>Seedr Torrent Downloader - _AutoSeedr_** </center>
+
 
 ---
 
 ---
-## **Automate Torrent Downloads and Bypass ISP Throttling**
+## **<center> Automate Torrent Downloads and Bypass ISP Throttling </center>**
 Tired of ISP throttling slowing down your torrent downloads? 
 AutoSeedr is built for that problem. This Python script automates the process of uploading torrents to Seedr, 
 a cloud storage service that lets you download files over HTTPS, bypassing ISP restrictions and maximizing your download speed.
-
 ---
+
+
+
 ## What is Seedr
 Seedr is a cloud-based torrent client that allows users to download and stream torrents directly from the cloud without the need for a dedicated torrent client on their local 
 
@@ -111,6 +117,11 @@ Logging Options:
                         Logging level (default: ERROR)
   -lf LOG_FILE, --log-file LOG_FILE
                         Log file path (default: auto_seedr_cli.log)
+```
+
++ Load from config and download torrents from seedr
+```
+python cli.py -L -f config.ini
 ```
 
 ### Usage:
