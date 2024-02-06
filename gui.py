@@ -99,7 +99,7 @@ class AutoSeedrGUI:
 def main():
     root = tk.Tk()
     root.geometry("600x200")
-    root.iconphoto(False, tk.PhotoImage(file="icon.png"))
+    root.iconphoto(False, tk.PhotoImage(file="images/icon.png"))
     AutoSeedrGUI(root)
     root.mainloop()
 
