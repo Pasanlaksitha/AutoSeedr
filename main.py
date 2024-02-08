@@ -48,7 +48,6 @@ def get_progression_data(url):
     size = data['size']
     download_rate = data['download_rate']
     folder_created = data['stats']['folder_created']
-    # torrent_hash = data['stats']['torrent_hash']
 
     return title, size, download_rate, folder_created
 
@@ -78,9 +77,7 @@ def is_folder_ok(folder_name, folder_id=None):
 def upload_torrent(filename):
     progression_data = seedr.add_torrent(torrent=join(torrent_folder, filename), folder_id=-1, check_size=True)
 
-    # torrent_id = progression_data.get('torrent_id')
     file_name = progression_data.get('file_name')
-    # progression_url = progression_data.get('progress_url')
 
     while seedr.get_drive()['torrents']:
         sleep(1)
