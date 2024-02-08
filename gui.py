@@ -93,13 +93,13 @@ class AutoSeedrGUI:
                 download_directory=self.download_directory_entry.get()
             )
 
-            messagebox.showinfo("Success", f"INI file created successfully at {ini_file}")
+            messagebox.showinfo("Success", f".INI file created successfully at {ini_file}")
 
 
 def main():
     root = tk.Tk()
     root.geometry("600x200")
-    root.iconphoto(False, tk.PhotoImage(file="icon.png"))
+    root.iconphoto(False, tk.PhotoImage(file="images/icon.png"))
     AutoSeedrGUI(root)
     root.mainloop()
 
