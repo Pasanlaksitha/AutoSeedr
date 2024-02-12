@@ -146,7 +146,7 @@ I hope this helps! Let me know if you have any other questions.
 - [x] add argument parser using argparse (fastdownload, progressbar download)
 - [x] few bugs while release 'indipendent .ini file
 - [x] GUI interface and compiled exe file for windows users
-- [ ] fix icon in GUI interface
+- [x] fix icon in GUI interface
 - [ ] ADD features to gui interface that are in cli.py
 - [ ] multiple seedr account add to GUI interface
 
