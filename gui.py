@@ -1,7 +1,6 @@
 import tkinter as tk
 from configparser import ConfigParser
 from tkinter import messagebox, filedialog
-from tqdm.tk import trange, tqdm
 
 from auto_seedr import AutoSeedrClient, setup_config
 
