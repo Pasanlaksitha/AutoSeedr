@@ -1,6 +1,5 @@
 class AutoSeedrError(Exception):
     """Base class for AutoSeedrClient exceptions."""
-    pass
 
 
 class ConfigFileNotFoundError(AutoSeedrError):
