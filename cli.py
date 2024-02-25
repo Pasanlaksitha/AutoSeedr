@@ -100,9 +100,7 @@ def prompt_for_missing_details():
 
 
 def main():
-    """
-    The main function that orchestrates the AutoSeedr CLI functionality.
-    """
+    """The main function that orchestrates the AutoSeedr CLI functionality."""
     args = parse_args()
     torrent_directory, download_directory, chunk_size = (
         args.torrent_directory,
