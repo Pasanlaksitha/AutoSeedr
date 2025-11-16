@@ -55,7 +55,9 @@ def timeit(func, time_log_file: str = 'time_log.txt'):
 
 
 def setup_config(email: str, password: str, config_file: str = 'config.ini', torrent_directory: str = 'torrents',
-                 download_directory: str = 'downloads', chunk_size: str = '1024') -> None:
+                 download_directory: str = 'downloads', chunk_size: str = '1024',
+                 enable_chunked_download: bool = True, chunk_download_size: float = 2.0,
+                 max_workers: int = 4, delete_after_download: bool = False) -> None:
     """
     Set up the configuration
 
@@ -65,12 +67,23 @@ def setup_config(email: str, password: str, config_file: str = 'config.ini', tor
     :param torrent_directory: The directory where torrent files will be stored. Default is 'torrents'.
     :param download_directory:The directory where downloaded files will be stored. Default is 'downloads'
     :param chunk_size: The chunk size for downloading files. Default is '1024'.
+    :param enable_chunked_download: Enable chunked download for large files. Default is True.
+    :param chunk_download_size: Size of each download chunk in GB. Default is 2.0.
+    :param max_workers: Maximum number of parallel chunk downloads. Default is 4.
+    :param delete_after_download: Delete files from Seedr after downloading. Default is False.
     :return: None
     """
     __config = ConfigParser()
     __config['SEEDR'] = {'user': email, 'password': password}
-    __config['APP'] = {'torrent_folder': torrent_directory, 'chunk_size': chunk_size,
-                       'download_folder': download_directory}
+    __config['APP'] = {
+        'torrent_folder': torrent_directory,
+        'chunk_size': chunk_size,
+        'download_folder': download_directory,
+        'enable_chunked_download': str(enable_chunked_download),
+        'chunk_download_size': str(chunk_download_size),
+        'max_workers': str(max_workers),
+        'delete_after_download': str(delete_after_download)
+    }
 
     with open(config_file, 'w') as configfile:
         __config.write(configfile)

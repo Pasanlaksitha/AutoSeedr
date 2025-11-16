@@ -60,9 +60,15 @@ Seedr uses encrypted HTTPS connections for data transfer. While encryption adds 
 
 **HTTPS Download:** Download files directly from Seedr servers over HTTPS, avoiding ISP throttling and enjoying faster speeds.
 
+**🆕 Chunked Downloads for Large Files:** Automatically split large files into chunks (default: 2GB), download them in parallel, and reassemble them with the correct file extension. Perfect for handling files larger than your Seedr storage limit!
+
+**🆕 Sequential File Processing:** Download multi-file torrents one file at a time with automatic cleanup to free up Seedr storage space.
+
+**🆕 Auto-Delete After Download:** Optionally delete files from Seedr after downloading to maximize your free storage for subsequent files.
+
 **Logging and Error Handling:** Track successful downloads and record any errors for troubleshooting.
 
-**Configurable Settings:** Customize the script's behavior to fit your needs, including torrent folder, download directory, and chunk size.
+**Configurable Settings:** Customize the script's behavior to fit your needs, including torrent folder, download directory, chunk size, parallel workers, and more.
 
 
 
@@ -85,10 +91,30 @@ python main.py
 
 ### Getting Started `cli.py`:
  you should run and setup config.ini file before run this script
-+ Run the Script for help:  
++ Run the Script for help:
 ```
 python cli.py -h
-``` 
+```
+
+### 🆕 Chunked Download Feature
+
+AutoSeedr now supports intelligent chunked downloads to handle large files efficiently!
+
+**Quick Start with Chunked Downloads:**
+```bash
+# Enable chunked downloads with auto-delete (recommended for 4GB Seedr accounts)
+python cli.py -e your@email.com -p yourpassword \
+  --chunk-download-size 2.0 \
+  --delete-after-download
+
+# Customize chunk size and parallel workers
+python cli.py -e your@email.com -p yourpassword \
+  --chunk-download-size 1.5 \
+  --max-workers 6 \
+  --delete-after-download
+```
+
+**For detailed information, see [CHUNKED_DOWNLOAD_GUIDE.md](CHUNKED_DOWNLOAD_GUIDE.md)** 
 + Example Commands:  
 ```
     
@@ -149,6 +175,10 @@ I hope this helps! Let me know if you have any other questions.
 - [x] fix icon in GUI interface
 - [ ] ADD features to gui interface that are in cli.py
 - [ ] multiple seedr account add to GUI interface
+- [x] **Chunked download support for large files**
+- [x] **HTTP Range request support for parallel chunk downloads**
+- [x] **Automatic chunk reassembly with correct file extensions**
+- [x] **Sequential file download with auto-delete for storage management**
 
 [Send Email: hello@pasanlaksitha.com](mailto:hello@pasanlaksitha.com)
 

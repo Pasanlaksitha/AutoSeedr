@@ -56,3 +56,24 @@ class DirectoryDownloadError(AutoSeedrError):
 
     def __init__(self, directory):
         super().__init__(f"Error during directory download: {directory}")
+
+
+class ChunkedDownloadError(AutoSeedrError):
+    """Raised when there is an issue with chunked download."""
+
+    def __init__(self, message):
+        super().__init__(f"Chunked download error: {message}")
+
+
+class ChunkReassemblyError(AutoSeedrError):
+    """Raised when there is an issue reassembling file chunks."""
+
+    def __init__(self, message):
+        super().__init__(f"Chunk reassembly error: {message}")
+
+
+class FileDeletionError(AutoSeedrError):
+    """Raised when there is an issue deleting a file from Seedr."""
+
+    def __init__(self, file_id):
+        super().__init__(f"Error deleting file from Seedr: {file_id}")

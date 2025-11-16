@@ -69,6 +69,18 @@ def parse_args():
     config_group.add_argument('-cs', '--chunk-size', default=1024, type=int,
                               help='Chunk size for downloading files in kilobytes (default: 1024)')
 
+    chunked_group = parser.add_argument_group('Chunked Download Options')
+    chunked_group.add_argument('--enable-chunked-download', action='store_true', default=True,
+                               help='Enable chunked download for large files (default: True)')
+    chunked_group.add_argument('--disable-chunked-download', action='store_true',
+                               help='Disable chunked download')
+    chunked_group.add_argument('--chunk-download-size', default=2.0, type=float,
+                               help='Size of each download chunk in GB (default: 2.0)')
+    chunked_group.add_argument('--max-workers', default=4, type=int,
+                               help='Maximum number of parallel chunk downloads (default: 4)')
+    chunked_group.add_argument('--delete-after-download', action='store_true',
+                               help='Delete files from Seedr after downloading to free up space')
+
     log_group = parser.add_argument_group('Logging Options')
     log_group.add_argument('-ll', '--log-level', default=DEFAULT_LOG_LEVEL,
                            choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
@@ -108,6 +120,12 @@ def main():
         args.chunk_size
     )
 
+    # Handle chunked download options
+    enable_chunked = args.enable_chunked_download and not args.disable_chunked_download
+    chunk_download_size = int(args.chunk_download_size * 1024 * 1024 * 1024)  # Convert GB to bytes
+    max_workers = args.max_workers
+    delete_after_download = args.delete_after_download
+
     if args.create_config:
         if not args.email or not args.password:
             logging.warning('Email and password are required to create a new config.')
@@ -121,7 +139,11 @@ def main():
             config_file=args.config_file,
             torrent_directory=args.torrent_directory,
             download_directory=args.download_directory,
-            chunk_size=args.chunk_size
+            chunk_size=args.chunk_size,
+            enable_chunked_download=enable_chunked,
+            chunk_download_size=args.chunk_download_size,
+            max_workers=max_workers,
+            delete_after_download=delete_after_download
         )
         logging.info(f'Config file "{args.config_file}" created successfully.')
     elif args.load_config:
@@ -135,6 +157,12 @@ def main():
         torrent_directory = config.get('APP', 'torrent_folder')
         download_directory = config.get('APP', 'download_folder')
         chunk_size = config.get('APP', 'chunk_size')
+
+        # Load chunked download settings from config with defaults
+        enable_chunked = config.getboolean('APP', 'enable_chunked_download', fallback=True)
+        chunk_download_size = int(float(config.get('APP', 'chunk_download_size', fallback='2.0')) * 1024 * 1024 * 1024)
+        max_workers = config.getint('APP', 'max_workers', fallback=4)
+        delete_after_download = config.getboolean('APP', 'delete_after_download', fallback=False)
     else:
         email, password, torrent_directory, download_directory, chunk_size = (
             args.email,
@@ -152,6 +180,10 @@ def main():
         torrent_directory=torrent_directory,
         download_directory=download_directory,
         chunk_size=chunk_size,
+        enable_chunked_download=enable_chunked,
+        chunk_download_size=chunk_download_size,
+        max_workers=max_workers,
+        delete_after_download=delete_after_download
     )
 
     try:
